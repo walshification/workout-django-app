@@ -2,7 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
@@ -23,4 +23,4 @@ class Register(FormView):
 
 @login_required
 def index(request):
-    return HttpResponse("Hello, world. You're at the exercises index.")
+    return render(request, "exercises/index.html")
