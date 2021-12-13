@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib.auth.views import LoginView
 from django.urls import include, path
 
-from exercises.views import Register
+from exercises.views import Register, RoutineList
 
 urlpatterns = [
     path("accounts/register/", Register.as_view(), name="register"),
     path("accounts/login/", LoginView.as_view(), name="login"),
+    path("accounts/profile/", RoutineList.as_view(), name="routine_list"),
     path("exercises/", include("exercises.urls")),
 ]
