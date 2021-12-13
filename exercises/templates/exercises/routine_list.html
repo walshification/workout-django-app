@@ -2,10 +2,13 @@
 
 {% block main %}
 <div>
-  <ul>
-    {% for routine in object_list %}
-      <li>{{ routine.name }}</li>
+  {% for routine in object_list %}
+    <h1>{{ routine.name }}</h1>
+    {% for exercise in routine.exercises.all %}
+      <ul>
+        <li>{{ exercise.name }}</li>
+      </ul>
     {% endfor %}
-  </ul>
+  {% endfor %}
 </div>
 {% endblock %}
