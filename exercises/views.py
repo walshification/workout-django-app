@@ -1,11 +1,11 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import redirect, render
+from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
@@ -26,13 +26,18 @@ class Register(FormView):
         return super().form_valid(form)
 
 
+def redirect_to_login(request):
+    """Redirect to the index or login page."""
+    return redirect(reverse("exercises:index"))
+
+
 @login_required
 def index(request):
     """Just display a page."""
     return render(request, "exercises/index.html")
 
 
-class RoutineList(ListView):
+class RoutineList(LoginRequiredMixin, ListView):
     """Displays a user's routines in a table."""
 
     model = Routine

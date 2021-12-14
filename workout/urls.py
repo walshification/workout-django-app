@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import include, path
 
-from exercises.views import Register, RoutineList
+from exercises.views import Register, RoutineList, redirect_to_login
 
 urlpatterns = [
+    path("", redirect_to_login, name="login_redirect"),
     path("accounts/register/", Register.as_view(), name="register"),
     path("accounts/login/", LoginView.as_view(), name="login"),
     path("accounts/logout/", LogoutView.as_view(), name="logout"),
-    path("accounts/profile/", RoutineList.as_view(), name="routine_list"),
     path("exercises/", include("exercises.urls")),
 ]
