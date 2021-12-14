@@ -7,8 +7,6 @@ class Routine(models.Model):
 
     name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
-    completed_at = models.DateTimeField(null=True, blank=True)
-    is_completed = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="routines")
 
 
@@ -16,6 +14,22 @@ class Exercise(models.Model):
     """A particular exercise in a routine."""
 
     name = models.CharField(max_length=200)
+    routine = models.ManyToManyField(Routine, related_name="exercises")
+
+
+class Set(models.Model):
+    """A runthrough of an exercise."""
+
+    exercise = models.CharField(max_length=200)
     weight = models.IntegerField(default=0)
     reps = models.IntegerField(default=0)
-    routine = models.ManyToManyField(Routine, related_name="exercises")
+
+
+class Workout(models.Model):
+    """An instance of working out to a routine."""
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    is_completed = models.BooleanField(default=False)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="workouts")
+    set = models.ForeignKey(Set, on_delete=models.CASCADE, related_name="sets")
