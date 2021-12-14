@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import include, path
 
-from exercises.views import Register, RoutineList, redirect_to_login
+from exercises.views import Register, redirect_to_login
 
 urlpatterns = [
     path("", redirect_to_login, name="login_redirect"),

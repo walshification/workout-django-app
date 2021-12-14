@@ -6,17 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('exercises', '0002_alter_routine_completed_at'),
+        ("exercises", "0002_alter_routine_completed_at"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='exercise',
-            name='routine',
+            model_name="exercise",
+            name="routine",
         ),
         migrations.AddField(
-            model_name='exercise',
-            name='routine',
-            field=models.ManyToManyField(related_name='exercises', to='exercises.Routine'),
+            model_name="exercise",
+            name="routine",
+            field=models.ManyToManyField(
+                related_name="exercises", to="exercises.Routine"
+            ),
         ),
     ]
