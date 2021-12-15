@@ -9,7 +9,8 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
-from exercises.models import Routine
+# from exercises.forms import NewWorkoutForm
+from exercises.models import Routine, Workout
 
 
 class Register(FormView):
@@ -45,3 +46,16 @@ class RoutineList(LoginRequiredMixin, ListView):
     def get_queryset(self) -> QuerySet[Routine]:
         """Defines the user's routines queryset."""
         return Routine.objects.filter(owner=self.request.user)
+
+
+class CreateWorkout(FormView):
+    """Start a new workout for a given routine."""
+
+    model = Workout
+    # form_class = NewWorkoutForm
+    success_url = reverse_lazy("exercises:active_workout")
+
+    def form_valid(self, form):
+        """Verify we have a routine to make the workout out of."""
+        if form.is_valid():
+            return super().form_valid(form)
