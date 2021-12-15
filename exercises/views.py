@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
@@ -48,14 +49,19 @@ class RoutineList(LoginRequiredMixin, ListView):
         return Routine.objects.filter(owner=self.request.user)
 
 
-class CreateWorkout(FormView):
+class CreateWorkout(LoginRequiredMixin, CreateView):
     """Start a new workout for a given routine."""
 
     model = Workout
-    # form_class = NewWorkoutForm
+    fields = ["routine"]
     success_url = reverse_lazy("exercises:active_workout")
 
     def form_valid(self, form):
         """Verify we have a routine to make the workout out of."""
         if form.is_valid():
             return super().form_valid(form)
+        return render(
+            self.request,
+            reverse("exercises:create_workout"),
+            {"form": form},
+        )

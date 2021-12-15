@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block actions %}
+<a href="{% url 'logout' %}">logout</a>
+{% endblock %}
+
+{% block main %}
+<h1>Start Workout!</h1>
+<form method="POST">
+  {% csrf_token %}
+  {% for field in form %}
+  {% block field %}
+    <div class="form-group">
+      {{ field.label_tag }}
+      {% if not field.field.required %}
+        <small class="text-muted ml-2">Optional</small>
+      {% endif %}
+      <div class="form-control"">
+        {{ field }}
+    </div>
+    {{ field.errors }}
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+      {% endif %}
+    </div>
+  {% endblock %}
+  {% endfor %}
+  <button type="submit" class="btn btn-success">Let's Go!</button>
+</form>
+{% endblock %}
