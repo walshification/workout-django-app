@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block actions %}
 <a href="{% url 'logout' %}">logout</a>
@@ -6,7 +7,7 @@
 
 {% block main %}
 <h1>Start Workout!</h1>
-<form method="POST">
+<form method="POST" class="needs-validation" novalidate>
   {% csrf_token %}
   {% for field in form %}
   {% block field %}
@@ -15,10 +16,11 @@
       {% if not field.field.required %}
         <small class="text-muted ml-2">Optional</small>
       {% endif %}
-      <div class="form-control"">
-        {{ field }}
+      {{ field|add_class:"form-control" }}
+      <div class="invalid-feedback">
+        Please choose a routine.
+      </div>
     </div>
-    {{ field.errors }}
       {% if field.help_text %}
         <small class="form-text text-muted">{{ field.help_text|safe }}</small>
       {% endif %}
