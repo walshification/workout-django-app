@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div>
+  {% for routine in object_list %}
+    <h1>{{ routine.name }}</h1>
+    {% for exercise in routine.exercises.all %}
+      <ul>
+        <li>{{ exercise.name }}</li>
+      </ul>
+    {% endfor %}
+  {% endfor %}
+</div>
+{% endblock %}
