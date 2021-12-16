@@ -59,6 +59,7 @@ class CreateWorkout(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         """Verify we have a routine to make the workout out of."""
         if form.is_valid():
+            form.instance.owner = self.request.user
             return super().form_valid(form)
         return render(
             self.request,
