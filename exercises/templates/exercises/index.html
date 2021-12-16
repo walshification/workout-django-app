@@ -5,5 +5,7 @@
 {% endblock %}
 
 {% block main %}
-<a href=""><button type="button" class="btn btn-primary">Start a Workout</button></a>
+<a href="{% url 'exercises:create_workout' %}">
+  <button type="button" class="btn btn-primary">Start a Workout</button>
+</a>
 {% endblock %}

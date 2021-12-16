@@ -5,6 +5,10 @@ from django.db import models
 class Routine(models.Model):
     """A collection of exercises."""
 
+    def __str__(self):
+        """List as the name."""
+        return self.name
+
     name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="routines")

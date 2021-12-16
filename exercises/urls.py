@@ -8,4 +8,5 @@ app_name = "exercises"
 urlpatterns = [
     path("", views.index, name="index"),
     path("routines", views.RoutineList.as_view(), name="routines_list"),
+    path("create", views.CreateWorkout.as_view(), name="create_workout"),
 ]
