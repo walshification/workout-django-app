@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block actions %}
+<a href="{% url 'logout' %}">logout</a>
+{% endblock %}
+
+{% block main %}
+<h1>Way to Pump It!</h1>
+
+<div class="card bg-light">
+  <div class="card-body">
+    <div class="card-body justify-content-center d-flex">
+      <div class="flex-fill form__container">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-auto">
+              <table class="table table-responsive">
+                <thead>
+                  <tr>
+                    <th>Completed At</th>
+                    <th>Exercises</th>
+                  </tr>
+                </thead>
+                {% for workout in object_list %}
+                <tbody>
+                  <tr>
+                    <td>{{ workout.completed_at }}</td>
+                    <td>
+                      <ul>
+                        {% for exercise in workout.exercises.all %}
+                          {% if exercise.set_summary %}
+                            <li>{{ exercise.set_summary }}</li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

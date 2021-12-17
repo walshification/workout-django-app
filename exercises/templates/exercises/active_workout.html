@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block actions %}
+<a href="{% url 'logout' %}">logout</a>
+{% endblock %}
+
+{% block main %}
+<h1>Work It!</h1>
+
+<div class="card bg-light">
+  <div class="card-body">
+    <div class="card-body justify-content-center d-flex">
+      <div class="flex-fill form__container">
+        {% for exercise in exercises %}
+        <h3>{{ exercise.name }}</h3>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-auto">
+              <table class="table table-responsive">
+                {% for set in exercise.sets.all %}
+                <tbody>
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ set.weight }}lbs</td>
+                    <td>{{ set.reps }}x</td>
+                  </tr>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <a href="{% url 'exercises:create_set' exercise.id %}">
+            <button class="btn btn-success">Add Set</button>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <form method="POST" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="is_completed" value="true">
+    <button type="submit" class="btn btn-primary">Complete Workout</button>
+  </form>
+</div>
+{% endblock %}

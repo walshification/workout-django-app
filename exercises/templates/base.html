@@ -48,9 +48,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar">
         {% if user.is_authenticated %}
-            <ul class="navbar-nav mr-auto mt-2">
+            <ul class="navbar-nav mt-2">
                 <li class="nav-item"><a class="nav-link" href="{% url 'exercises:routines_list' %}">Routines</a></li>
             </ul>
+            <ul class="navbar-nav mr-auto mt-2">
+              <li class="nav-item"><a class="nav-link" href="{% url 'exercises:history' %}">History</a></li>
+          </ul>
+
             <ul class="navbar-nav ml-auto mt-2">
                 <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>
             </ul>
@@ -67,7 +71,7 @@
         {% block main %}{% endblock %}
     </main>
 
-    <footer class="small text-center text-muted">
+    <footer class="footer small text-center text-muted">
         Copyright Christopher Walsh 2021.
     </footer>
   </body>
