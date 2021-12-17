@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block actions %}
+<a href="{% url 'logout' %}">logout</a>
+{% endblock %}
+
+{% block main %}
+<h1>Start Workout!</h1>
+<form method="POST" class="needs-validation" novalidate>
+  {% csrf_token %}
+  {% for field in form %}
+  {% block field %}
+    <div class="form-group">
+      {{ field.label_tag }}
+      {% if not field.field.required %}
+        <small class="text-muted ml-2">Optional</small>
+      {% endif %}
+      {{ field|add_class:"form-control" }}
+      <div class="invalid-feedback">
+        Please choose a routine.
+      </div>
+    </div>
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+      {% endif %}
+    </div>
+  {% endblock %}
+  {% endfor %}
+  <button type="submit" class="btn btn-success">Let's Go!</button>
+</form>
+{% endblock %}
