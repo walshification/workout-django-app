@@ -14,6 +14,15 @@ class Routine(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="routines")
 
 
+class AbstractExercise(models.Model):
+    """An exercise for a routine."""
+
+    name = models.CharField(max_length=200)
+    routine = models.ForeignKey(
+        Routine, on_delete=models.CASCADE, related_name="exercises"
+    )
+
+
 class Workout(models.Model):
     """An instance of working out to a routine."""
 
@@ -21,7 +30,6 @@ class Workout(models.Model):
     completed_at = models.DateTimeField(null=True, blank=True)
     is_completed = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="workouts")
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
 
 
 class Set(models.Model):
@@ -35,7 +43,7 @@ class Exercise(models.Model):
     """A particular exercise in a routine."""
 
     name = models.CharField(max_length=200)
-    routine = models.ForeignKey(
-        Routine, on_delete=models.CASCADE, related_name="exercises"
+    workout = models.ForeignKey(
+        Workout, on_delete=models.CASCADE, related_name="exercises"
     )
     sets = models.ManyToManyField(Set, related_name="sets")
