@@ -77,8 +77,11 @@ tbody {
 }
 
 footer {
+    padding-top: 10px;
+    opacity: 1;
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 2.5rem;
+    background-color: #f8f9fa;
 }
