@@ -14,4 +14,5 @@ urlpatterns = [
     path(
         "<slug:exercise_id>/sets/create", views.CreateSet.as_view(), name="create_set"
     ),
+    path("routines/create", views.CreateRoutine.as_view(), name="create_routine"),
 ]

@@ -10,8 +10,8 @@ from django.utils import timezone
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 
-from exercises.forms import CreateWorkoutForm, UpdateWorkoutForm
-from exercises.models import Exercise, Routine, Set, Workout
+from exercises.forms import CreateRoutineForm, CreateWorkoutForm, UpdateWorkoutForm
+from exercises.models import AbstractExercise, Exercise, Routine, Set, Workout
 
 
 class Register(FormView):
@@ -49,6 +49,34 @@ class RoutineList(LoginRequiredMixin, ListView):
         return Routine.objects.filter(owner=self.request.user)
 
 
+class CreateRoutine(LoginRequiredMixin, FormView):
+    """Create a new routine."""
+
+    form_class = CreateRoutineForm
+    template_name = "exercises/create_routine_form.html"
+    success_url = reverse_lazy("exercises:create_workout")
+
+    def form_valid(self, form):
+        """Verify we have exercises."""
+        if form.is_valid():
+            routine = Routine.objects.create(
+                name=form.cleaned_data["name"],
+                owner=self.request.user,
+            )
+            exercises = [
+                exercise.strip()
+                for exercise in form.cleaned_data["exercises"].split(",")
+            ]
+            for exercise in exercises:
+                AbstractExercise.objects.create(name=exercise, routine=routine)
+            return super().form_valid(form)
+        return render(
+            self.request,
+            reverse("exercises:create_set"),
+            {"form": form},
+        )
+
+
 class CreateWorkout(LoginRequiredMixin, FormView):
     """Start a new workout for a given routine."""
 
@@ -67,11 +95,17 @@ class CreateWorkout(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         """Verify we have a routine to make the workout out of."""
         if form.is_valid():
-            Workout.objects.create(
-                routine=Routine.objects.create()
+            Workout.objects.filter(owner=self.request.user, is_completed=False).update(
+                is_completed=True, completed_at=timezone.now()
             )
-            form.instance.owner = self.request.user
-            redirect(reverse("exercises:active_workout"))
+            workout = Workout.objects.create(owner=self.request.user)
+            routine = Routine.objects.filter(
+                name=form.cleaned_data["routine"],
+                owner=self.request.user,
+            ).first()
+            for abstract_exercise in routine.exercises.all():
+                Exercise.objects.create(name=abstract_exercise.name, workout=workout)
+            return redirect(reverse("exercises:active_workout"))
         return render(
             self.request,
             reverse("exercises:create_workout"),
@@ -93,7 +127,7 @@ class UpdateWorkout(LoginRequiredMixin, FormView):
         workout = Workout.objects.filter(
             owner=self.request.user, is_completed=False
         ).first()
-        for exercise in workout.routine.exercises.all():
+        for exercise in workout.exercises.all():
             data["exercises"].append(exercise)
         return data
 
