@@ -1,7 +1,5 @@
 from django import forms
 
-from exercises.models import Workout
-
 
 class CreateWorkoutForm(forms.Form):
     """Form for creating a workout from a routine."""

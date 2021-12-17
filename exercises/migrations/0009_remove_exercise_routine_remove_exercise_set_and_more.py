@@ -6,21 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('exercises', '0008_remove_routine_workout_workout_routine'),
+        ("exercises", "0008_remove_routine_workout_workout_routine"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='exercise',
-            name='routine',
+            model_name="exercise",
+            name="routine",
         ),
         migrations.RemoveField(
-            model_name='exercise',
-            name='set',
+            model_name="exercise",
+            name="set",
         ),
         migrations.AddField(
-            model_name='exercise',
-            name='set',
-            field=models.ManyToManyField(related_name='sets', to='exercises.Set'),
+            model_name="exercise",
+            name="set",
+            field=models.ManyToManyField(related_name="sets", to="exercises.Set"),
         ),
     ]
