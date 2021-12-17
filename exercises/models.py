@@ -47,3 +47,8 @@ class Exercise(models.Model):
         Workout, on_delete=models.CASCADE, related_name="exercises"
     )
     sets = models.ManyToManyField(Set, related_name="sets")
+
+    @property
+    def set_summary(self):
+        """Summary of the sets."""
+        return ", ".join(f"{set.weight}lbs, {set.reps}x" for set in self.sets.all())

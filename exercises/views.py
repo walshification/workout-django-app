@@ -174,3 +174,17 @@ class CreateSet(LoginRequiredMixin, CreateView):
             reverse("exercises:create_set"),
             {"form": form},
         )
+
+
+class WorkoutHistory(LoginRequiredMixin, ListView):
+    """List completed workouts."""
+
+    model = Workout
+    template_name = "exercises/workout_history.html"
+
+    def get_queryset(self) -> QuerySet[Workout]:
+        """Defines the user's routines queryset."""
+        return Workout.objects.filter(
+            owner=self.request.user,
+            is_completed=True,
+        ).order_by("-completed_at")
