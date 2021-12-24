@@ -86,3 +86,58 @@ Mappings for the exercise pages to their associated views. They include:
 * `/exercises/history` to view a user's workout history.
 * `/exercises/<slug:exercise_id>/sets/create` for creating an exercise's set (where `exercise_id` is the ID of the particular exercise.
 * `/exercises/routines/create` for creating new routines.
+
+#### The Templates
+
+##### base.html
+
+The app has one main template (base.html) on top of which all the other templates build. The base template adds jQuery, Bootstrap, the favicon, and the project's stylesheet to the page. It also has a small script to make form validations look and behave nicer with Bootstraps form logic.
+
+In the body of the base template, there is a navbar that checks if a user is logged in and, if so, displays links to the routines list and history pages as well as a logout link. If a user is not logged in, there are register or login links.
+
+The template includes a `main` block that other templates can populate.
+
+There is a small footer as well, that displays my copyright.
+
+##### register.html
+
+This displays a very simple form for registering as a user. It also has a link for logging in, in case you've already registered.
+
+##### login.html
+
+Essentially the same form (structurally) as the register page but with a link to the registration page if you haven't registered. Allows a user to log in.
+
+##### index.html
+
+Displays a button that takes a user to the create workout form.
+
+##### workout_form.html
+
+Displays a form for starting a new workout. It contains a dropdown for choosing a routine to base the workout on. If the desired routine is not available, there is a link to the create routine form so the user can make it.
+
+##### create_routine_form.html
+
+Allows users to create a new routine. This form has a text field that takes a list of exercise names for associate with the routine. Redirects to the create workout form so users can get to working out.
+
+##### routine_list.html
+
+A simple template that loops through a user's created routines and displays them along with their exercises.
+
+##### active_workout.html
+
+This form displays the exercises in the current workout's routine, underneath which are displayed the stats for any completed sets for that exercise in this workout, along with a button for adding new completed sets. At the bottom of the form is a button for marking the workout as complete.
+
+##### set_form.html
+
+Another simple form that allows users to record a completed set of a given exercise. Takes users back to the active workout for the exercise.
+
+##### workout_history.html
+
+Displays a table of completed workouts along with the sets for each of the exercises completed and when the workouts were completed.
+
+## Areas for Improvement
+
+* The forms can be refactored to cut down on so much duplication. I focused on getting them working and then moved on without thinking about what I was repeating.
+* I'd like to add more JavaScript to make the active workout page one dynamic form where you can add sets and even exercises without leaving the page.
+* I intended to add unit tests for the logic, but I ran out of time (classic).
+* More ambitiously, I may rewrite the app as a Swift or React Native app. It is designed to be used on mobile because I have only my phone with me when I work out and I want it to be easy to use.
